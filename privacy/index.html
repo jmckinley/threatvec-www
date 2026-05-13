@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Privacy Policy — ThreatVec</title>
+<meta name="description" content="ThreatVec privacy policy — what we collect, what we don't, and how we handle your data."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#08080f;
+  --bg2:#0d0d1a;
+  --bg3:#12121f;
+  --border:#1e1e35;
+  --border2:#2a2a45;
+  --text:#e8e8f0;
+  --muted:#6b6b8a;
+  --muted2:#9494b0;
+  --accent:#6366f1;
+  --accent2:#818cf8;
+  --accent3:#4f46e5;
+  --green:#10b981;
+  --red:#ef4444;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6;font-size:16px;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,15,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:.875rem 0;}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;}
+.logo{font-size:1.1rem;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-.02em;display:flex;align-items:center;gap:.5rem;}
+.logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:.75rem;}
+.btn-ghost{color:var(--muted2);text-decoration:none;font-size:.85rem;font-weight:500;padding:.4rem .875rem;border-radius:.375rem;border:1px solid var(--border2);transition:all .15s;}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent);}
+.btn-primary{background:var(--accent);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:.45rem 1.1rem;border-radius:.375rem;transition:background .15s;}
+.btn-primary:hover{background:var(--accent3);}
+
+.page{max-width:760px;margin:0 auto;padding:7rem 2rem 4rem;}
+h1{font-size:clamp(1.75rem,3vw,2.5rem);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:.75rem;}
+.meta{font-size:.85rem;color:var(--muted);margin-bottom:2.5rem;}
+.tldr{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.3);border-radius:.75rem;padding:1.25rem 1.5rem;margin-bottom:2.5rem;}
+.tldr-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2);margin-bottom:.5rem;}
+.tldr ul{margin:.5rem 0 0 1.25rem;color:var(--muted2);font-size:.95rem;}
+.tldr li{margin-bottom:.25rem;}
+.tldr li strong{color:var(--text);}
+
+h2{font-size:1.25rem;font-weight:800;color:#fff;margin:2.5rem 0 .875rem;letter-spacing:-.01em;}
+h3{font-size:1rem;font-weight:700;color:var(--text);margin:1.75rem 0 .5rem;}
+p{color:var(--muted2);margin-bottom:1rem;font-size:.95rem;}
+ul,ol{margin:0 0 1rem 1.5rem;color:var(--muted2);font-size:.95rem;}
+li{margin-bottom:.375rem;}
+strong{color:var(--text);font-weight:600;}
+a{color:var(--accent2);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{background:var(--bg3);border:1px solid var(--border);border-radius:.25rem;padding:.1rem .35rem;font-family:ui-monospace,monospace;font-size:.85em;color:var(--accent2);}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.88rem;}
+th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid var(--border);}
+th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;background:var(--bg2);}
+td{color:var(--muted2);}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2rem;font-size:.8rem;color:var(--muted);}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--text);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="logo-dot"></span>ThreatVec</a>
+    <div class="nav-right">
+      <a href="https://app.threatvec.com" class="btn-ghost">Log in</a>
+      <a href="https://app.threatvec.com/signup" class="btn-primary">Start Free Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+<h1>Privacy Policy</h1>
+<div class="meta">Effective date: 2026-05-13 · Last updated: 2026-05-13</div>
+
+<div class="tldr">
+  <div class="tldr-title">TL;DR</div>
+  <ul>
+    <li><strong>We do not collect prompt content.</strong> Our browser extension scans for PII <em>on-device</em>; what you type stays in your browser unless your organization's policy explicitly forwards it.</li>
+    <li>We collect the <strong>metadata</strong> needed to deliver security signals: which AI services were used, counts of policy decisions, and basic account identifiers.</li>
+    <li>We do not sell or rent your data. We do not use it for advertising. We do not train ML models on it.</li>
+    <li>Enterprise customers are covered by our <a href="https://app.threatvec.com/docs/dpa">Data Processing Agreement</a> (GDPR / HIPAA / UK GDPR aligned).</li>
+  </ul>
+</div>
+
+<p>ThreatVec ("we", "us") is a security product operated by <strong>Great Falls Ventures LLC</strong>, a Delaware limited liability company. This policy explains what data ThreatVec collects when you use the ThreatVec web application at <code>app.threatvec.com</code>, the ThreatVec Shadow AI browser extension, our SDK, and our marketing site at <code>threatvec.com</code>.</p>
+
+<p>If you have questions, write to <a href="mailto:privacy@threatvec.com">privacy@threatvec.com</a> or use our <a href="https://app.threatvec.com/support">support page</a>.</p>
+
+<h2>1. Who this policy applies to</h2>
+<p>This policy applies to:</p>
+<ul>
+  <li><strong>End users</strong> at our customers' organizations whose AI activity is monitored by ThreatVec.</li>
+  <li><strong>Administrators</strong> at customer organizations who sign in to the ThreatVec web application.</li>
+  <li><strong>Visitors</strong> to our marketing site.</li>
+</ul>
+<p>If you are an end user, the organization that deployed ThreatVec is the <em>data controller</em> for any personal data we process on their behalf — they decide what gets collected and what is done with it. ThreatVec is the <em>data processor</em>. Ask your security team for their internal policy.</p>
+
+<h2>2. What we collect — and what we explicitly don't</h2>
+
+<h3>The browser extension (ThreatVec Shadow AI)</h3>
+<p>When installed by your organization, the extension scans the content of AI service prompts <strong>in your browser, on your device</strong>, using regex patterns. The matching happens entirely client-side. What leaves your browser depends on the policy your security team configured:</p>
+
+<table>
+  <thead><tr><th>Data</th><th>Collected?</th><th>Where it goes</th></tr></thead>
+  <tbody>
+    <tr><td>URLs of AI services you visit</td><td>Yes</td><td>Your organization's ThreatVec tenant</td></tr>
+    <tr><td>Counts of policy decisions (allow / warn / block)</td><td>Yes</td><td>Your organization's ThreatVec tenant</td></tr>
+    <tr><td>Types of PII detected (e.g. "credit_card", "email")</td><td>Yes</td><td>Your organization's ThreatVec tenant</td></tr>
+    <tr><td><strong>The actual content of your prompts</strong></td><td><strong>No — never</strong></td><td>Stays in your browser</td></tr>
+    <tr><td>Your name, password, or financial data</td><td>No</td><td>—</td></tr>
+    <tr><td>Browsing history outside of AI services</td><td>No</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<p>The extension stores your organization's API key and per-site policy decisions <strong>locally</strong> via the browser's <code>chrome.storage</code> API. This data does not leave your device.</p>
+
+<h3>The ThreatVec web application + SDK</h3>
+<p>When your organization signs up and deploys ThreatVec, we process:</p>
+<ul>
+  <li><strong>Account data</strong>: administrator email addresses (encrypted at rest with AES-256-GCM), organization name, billing identifiers.</li>
+  <li><strong>Agent identifiers</strong>: hostnames and agent names of devices where your team has installed ThreatVec.</li>
+  <li><strong>Security signals</strong>: metadata about AI activity — model called, token counts, PII types detected, timestamps. User identifiers in signals are pseudonymized via HMAC-SHA256 using a per-organization salt; we cannot reverse them.</li>
+  <li><strong>Posture scores</strong>: numerical computations across the above signals.</li>
+</ul>
+<p><strong>We do not process</strong>: LLM prompt content, LLM completion content, raw employee activity records, medical records, or financial transaction data.</p>
+
+<h3>The marketing site</h3>
+<p>We collect minimal analytics on <code>threatvec.com</code>: aggregate page views, referrers, and browser type. No third-party advertising trackers. No cookies that identify you personally.</p>
+
+<h2>3. Why we collect what we collect</h2>
+<p>We use this data only to:</p>
+<ul>
+  <li>Provide the security service your organization purchased (the core product).</li>
+  <li>Authenticate users and protect against unauthorized access.</li>
+  <li>Investigate and resolve operational incidents, on documented request from your organization.</li>
+  <li>Comply with legal obligations.</li>
+</ul>
+<p>We do not use your data to train machine learning models, target advertising, or any other purpose unrelated to delivering the security service.</p>
+
+<h2>4. Who we share data with</h2>
+<p>We share data only with:</p>
+<ul>
+  <li><strong>Sub-processors</strong> that operate the infrastructure ThreatVec runs on:
+    <ul>
+      <li>Hostinger (server hosting, EU data center)</li>
+      <li>Clerk (authentication)</li>
+      <li>Stripe (payment processing — only for paying customers)</li>
+      <li>Resend (transactional email)</li>
+      <li>Anthropic (LLM analysis for non-customer-data narratives — see ADR-001 in our public repository)</li>
+    </ul>
+    Each sub-processor is contractually bound to handle data only on our documented instructions.
+  </li>
+  <li><strong>Legal authorities</strong>, if we receive a binding legal order. We will challenge any order we believe is overbroad.</li>
+</ul>
+<p>We do not sell, rent, or trade personal data.</p>
+
+<h2>5. Where your data is stored</h2>
+<p>By default, data is stored in our EU region (Hostinger, Germany). At signup, organizations may select a different region (US or AP) — currently routed to the same EU primary while we provision regional Postgres instances. We will not move data across regions without notice.</p>
+
+<h2>6. How long we keep data</h2>
+<ul>
+  <li><strong>Active account data</strong>: as long as your organization remains a customer.</li>
+  <li><strong>Signal events</strong>: 365 days by default; configurable shorter on request.</li>
+  <li><strong>Audit logs</strong>: 7 years for SOC 2 / compliance evidence.</li>
+  <li><strong>After account deletion</strong>: all data permanently deleted within 30 days, except where law requires longer retention.</li>
+</ul>
+
+<h2>7. Your rights</h2>
+<p>If you are covered by GDPR (EU/EEA/UK), CCPA (California), or similar legislation, you can:</p>
+<ul>
+  <li><strong>Access</strong> the data we hold about you.</li>
+  <li><strong>Correct</strong> inaccurate data.</li>
+  <li><strong>Delete</strong> your data (subject to legal retention).</li>
+  <li><strong>Export</strong> a copy in a portable format.</li>
+  <li><strong>Object</strong> to processing or restrict it.</li>
+</ul>
+<p>To exercise any of these rights, email <a href="mailto:privacy@threatvec.com">privacy@threatvec.com</a>. We respond within 30 days. If you're an end user at a customer organization, we will route your request to your organization (the data controller) and notify you.</p>
+
+<p>You can lodge a complaint with your local data protection authority. EU/EEA: see your country's DPA. UK: the ICO. California: the CPPA.</p>
+
+<h2>8. Security</h2>
+<p>We use industry-standard technical and organizational measures:</p>
+<ul>
+  <li>TLS 1.2+ for all data in transit, AES-256-GCM for sensitive data at rest.</li>
+  <li>Multi-factor authentication for all administrative access.</li>
+  <li>Continuous source-code scanning for credential leaks and security regressions.</li>
+  <li>Annual penetration testing.</li>
+  <li>Incident response plan with notification within 72 hours of confirmed breach.</li>
+</ul>
+<p>Our security architecture is documented at <a href="https://github.com/jmckinley/threatvec/blob/main/docs/security-architecture.md">github.com/jmckinley/threatvec</a>.</p>
+
+<h2>9. Children</h2>
+<p>ThreatVec is a B2B security product not intended for use by children under 16. We do not knowingly collect data from children.</p>
+
+<h2>10. Changes to this policy</h2>
+<p>We will post any material changes to this page and update the "Last updated" date at the top. Substantive changes will also be notified by email to the administrator email on file for each customer organization.</p>
+
+<h2>11. Contact</h2>
+<p>
+  <strong>Great Falls Ventures LLC</strong> (operating as ThreatVec)<br>
+  Data protection inquiries: <a href="mailto:privacy@threatvec.com">privacy@threatvec.com</a><br>
+  General support: <a href="https://app.threatvec.com/support">app.threatvec.com/support</a><br>
+  Enterprise DPA: <a href="https://app.threatvec.com/docs/dpa">app.threatvec.com/docs/dpa</a>
+</p>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div style="font-weight:700;color:var(--text);margin-bottom:.5rem">ThreatVec</div>
+      <div>AI Agent Security Posture Management<br>© 2026 Great Falls Ventures LLC</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://app.threatvec.com/signup" style="color:var(--accent2);font-weight:600">Start Free Trial</a>
+      <a href="https://app.threatvec.com">Log in</a>
+      <a href="https://app.threatvec.com/support">Support</a>
+      <a href="https://app.threatvec.com/status">Status</a>
+      <a href="https://github.com/jmckinley/threatvec">GitHub</a>
+      <a href="/privacy">Privacy</a>
+      <a href="https://app.threatvec.com/docs/dpa">DPA</a>
+      <a href="mailto:john@greatfallsventures.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
