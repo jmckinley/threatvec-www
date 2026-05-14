@@ -154,10 +154,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
 <ul>
   <li><strong>Sub-processors</strong> that operate the infrastructure ThreatVec runs on:
     <ul>
-      <li>Hostinger (server hosting, USA data center — Boston, MA)</li>
+      <li>Hostinger (server hosting — Boston, MA primary; Frankfurt, Germany regional Postgres for EU customer telemetry)</li>
       <li>Clerk (authentication)</li>
       <li>Stripe (payment processing — only for paying customers)</li>
-      <li>Resend (transactional email)</li>
+      <li>Resend (outbound transactional email)</li>
+      <li>Zendesk (inbound customer support tickets)</li>
       <li>Anthropic (LLM analysis for non-customer-data narratives — see ADR-001 in our public repository)</li>
     </ul>
     Each sub-processor is contractually bound to handle data only on our documented instructions.
