@@ -159,6 +159,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
       <li>Clerk (authentication)</li>
       <li>Stripe (payment processing — only for paying customers)</li>
       <li>Resend (outbound transactional email)</li>
+      <li>ImprovMX (inbound email forwarding — relays support email into Zendesk; based in France)</li>
       <li>Zendesk (inbound customer support tickets)</li>
       <li>Anthropic (LLM analysis for non-customer-data narratives — see ADR-001 in our public repository)</li>
     </ul>
@@ -169,7 +170,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
 <p>We do not sell, rent, or trade personal data.</p>
 
 <h2>5. Where your data is stored</h2>
-<p>ThreatVec's production environment is currently hosted in the <strong>United States</strong> (Hostinger Boston). For data subjects in the EU/EEA, this means every interaction involves a cross-border transfer to the United States, governed by the <a href="https://www.dataprivacyframework.gov/">EU-US Data Privacy Framework</a> and Standard Contractual Clauses with each sub-processor. The data-region selector at signup is a routing preference for future regional rollouts; today it does not change the physical storage location. EU-resident primary infrastructure is planned but not yet provisioned — we will give 30 days notice before changing where any customer's data is stored.</p>
+<p>ThreatVec's <strong>application tier</strong> is hosted in the <strong>United States</strong> (Hostinger Boston). For data subjects in the EU/EEA, every API request still terminates at the Boston app tier — a controller-to-processor transfer governed by the <a href="https://www.dataprivacyframework.gov/">EU-US Data Privacy Framework</a> and Standard Contractual Clauses with each US sub-processor.</p>
+<p><strong>EU customer telemetry at rest is stored in the EU.</strong> Since 2026-05-14 (Sprint 21c), signal events, shadow events, and telemetry for EU-tagged organizations are written to a Hostinger Frankfurt regional Postgres within the EEA — no cross-border transfer for at-rest storage. Authentication and organization metadata for all customers stays on the US primary so identity lookups remain on the fast path. Choose your data region during signup; we will give 30 days notice before changing where any customer's data is stored.</p>
 
 <h2>6. How long we keep data</h2>
 <ul>
