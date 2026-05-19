@@ -574,14 +574,103 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
       <a href="https://github.com/jmckinley/threatvec">GitHub</a>
       <a href="/privacy">Privacy</a>
       <a href="https://app.threatvec.com/docs/dpa">DPA</a>
+      <a href="#" id="tv-manage-cookies">Manage cookies</a>
       <a href="mailto:support@threatvec.com">Contact</a>
     </div>
   </div>
 </footer>
 
-<!-- Start of threatvec Zendesk Widget script -->
-<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a1aa92e2-6c9a-479d-826c-c165f761d3c2"> </script>
-<!-- End of threatvec Zendesk Widget script -->
+<!-- Sprint 28 — Cookie consent banner. The Zendesk widget is gated behind
+     explicit accept so no first-party cookies are dropped pre-consent. -->
+<div id="tv-cookie-banner"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="tv-cookie-banner-title"
+     style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--accent3);padding:14px 20px;z-index:200;font-size:13px;line-height:1.5;box-shadow:0 -4px 20px rgba(0,0,0,.5)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;color:var(--muted2)">
+      <strong id="tv-cookie-banner-title" style="color:var(--text)">Cookies &amp; privacy.</strong>
+      We don't run analytics or advertising trackers on this page. If you choose to chat with us, our help widget (Zendesk) sets first-party cookies in <code style="color:var(--accent2)">threatvec.com</code> to keep the conversation context.
+      <a href="/privacy" style="color:var(--accent2)" target="_blank" rel="noopener">Privacy policy</a>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="tv-cookie-reject" type="button"
+              style="padding:8px 16px;background:transparent;color:var(--muted2);border:1px solid var(--border2);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">
+        Reject (no chat)
+      </button>
+      <button id="tv-cookie-accept" type="button"
+              style="padding:8px 16px;background:var(--accent3);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700">
+        Accept &amp; enable chat
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var ZENDESK_KEY = 'a1aa92e2-6c9a-479d-826c-c165f761d3c2';
+
+  function readConsent() {
+    var m = document.cookie.match(/(?:^|;\s*)tv-cookie-consent=([^;]+)/);
+    if (!m) return null;
+    try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return null; }
+  }
+
+  function writeConsent(prefs) {
+    var oneYear = 60 * 60 * 24 * 365;
+    document.cookie =
+      'tv-cookie-consent=' + encodeURIComponent(JSON.stringify(prefs)) +
+      '; Max-Age=' + oneYear + '; Path=/; SameSite=Lax' +
+      (location.protocol === 'https:' ? '; Secure' : '');
+  }
+
+  function loadZendesk() {
+    if (document.getElementById('ze-snippet')) return;
+    var s = document.createElement('script');
+    s.id = 'ze-snippet';
+    s.async = true;
+    s.src = 'https://static.zdassets.com/ekr/snippet.js?key=' + ZENDESK_KEY;
+    document.head.appendChild(s);
+  }
+
+  function hideBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'none';
+  }
+  function showBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'block';
+  }
+
+  var current = readConsent();
+  if (current && current.chat === true) {
+    loadZendesk();
+  } else if (!current) {
+    showBanner();
+  }
+
+  document.getElementById('tv-cookie-accept').addEventListener('click', function () {
+    writeConsent({chat: true, ts: Date.now()});
+    hideBanner();
+    loadZendesk();
+  });
+  document.getElementById('tv-cookie-reject').addEventListener('click', function () {
+    writeConsent({chat: false, ts: Date.now()});
+    hideBanner();
+    // If Zendesk was loaded earlier this session a full reload would be
+    // required to unload it. Reject here just records the choice for
+    // future page loads.
+  });
+
+  var mgr = document.getElementById('tv-manage-cookies');
+  if (mgr) {
+    mgr.addEventListener('click', function (e) {
+      e.preventDefault();
+      showBanner();
+    });
+  }
+})();
+</script>
 
 </body>
 </html>

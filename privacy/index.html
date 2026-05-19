@@ -137,8 +137,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
 <p><strong>We do not process</strong>: LLM prompt content, LLM completion content, raw employee activity records, medical records, or financial transaction data.</p>
 
 <h3>The marketing site</h3>
-<p>We collect minimal analytics on <code>threatvec.com</code>: aggregate page views, referrers, and browser type. No third-party advertising trackers.</p>
-<p><strong>Help widget:</strong> our marketing site loads the Zendesk web widget (<code>static.zdassets.com</code>) so visitors can ask questions without leaving the page. The widget sets first-party cookies in the <code>threatvec.com</code> origin to remember your conversation; it does not set advertising or cross-site tracking cookies. If you are in the EU/EEA and prefer not to load the widget, contact <a href="mailto:privacy@threatvec.com">privacy@threatvec.com</a>; we will email you a workaround that disables the widget for your sessions.</p>
+<p>We collect minimal server-side analytics on <code>threatvec.com</code>: aggregate page views, referrers, and browser type from our web server logs. We do not load any third-party analytics or advertising trackers on this site (no Google Analytics, no Plausible, no Meta pixel, no LinkedIn Insight tag).</p>
+<p><strong>Help widget (consent-gated):</strong> our marketing site can load the Zendesk web widget (<code>static.zdassets.com</code>) so visitors can chat with us without leaving the page. The widget sets first-party cookies in the <code>threatvec.com</code> origin to remember your conversation; it does not set advertising or cross-site tracking cookies. The widget is <strong>not loaded by default</strong>: on your first visit we show a banner asking whether you want to enable chat. If you decline, no Zendesk script is fetched and no Zendesk cookies are set. You can change this choice at any time using the <a href="#" id="tv-priv-manage-cookies">Manage cookies</a> link in the footer.</p>
+<p>Your consent choice itself is stored in a single first-party cookie (<code>tv-cookie-consent</code>, 1-year lifetime) so we don't show you the banner on every page load. This is a strictly-necessary cookie under ePrivacy Article 5(3) and does not require its own consent.</p>
 
 <h2>3. Why we collect what we collect</h2>
 <p>We use this data only to:</p>
@@ -235,14 +236,99 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
       <a href="https://github.com/jmckinley/threatvec">GitHub</a>
       <a href="/privacy">Privacy</a>
       <a href="https://app.threatvec.com/docs/dpa">DPA</a>
+      <a href="#" id="tv-manage-cookies">Manage cookies</a>
       <a href="mailto:support@threatvec.com">Contact</a>
     </div>
   </div>
 </footer>
 
-<!-- Start of threatvec Zendesk Widget script -->
-<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a1aa92e2-6c9a-479d-826c-c165f761d3c2"> </script>
-<!-- End of threatvec Zendesk Widget script -->
+<!-- Sprint 28 — Cookie consent banner. Zendesk widget is gated behind
+     explicit accept so no first-party cookies are dropped pre-consent. -->
+<div id="tv-cookie-banner"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="tv-cookie-banner-title"
+     style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--accent3);padding:14px 20px;z-index:200;font-size:13px;line-height:1.5;box-shadow:0 -4px 20px rgba(0,0,0,.5)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;color:var(--muted2)">
+      <strong id="tv-cookie-banner-title" style="color:var(--text)">Cookies &amp; privacy.</strong>
+      We don't run analytics or advertising trackers on this page. If you choose to chat with us, our help widget (Zendesk) sets first-party cookies in <code style="color:var(--accent2)">threatvec.com</code> to keep the conversation context.
+      <a href="/privacy" style="color:var(--accent2)">Privacy policy</a>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="tv-cookie-reject" type="button"
+              style="padding:8px 16px;background:transparent;color:var(--muted2);border:1px solid var(--border2);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">
+        Reject (no chat)
+      </button>
+      <button id="tv-cookie-accept" type="button"
+              style="padding:8px 16px;background:var(--accent3);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700">
+        Accept &amp; enable chat
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var ZENDESK_KEY = 'a1aa92e2-6c9a-479d-826c-c165f761d3c2';
+
+  function readConsent() {
+    var m = document.cookie.match(/(?:^|;\s*)tv-cookie-consent=([^;]+)/);
+    if (!m) return null;
+    try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return null; }
+  }
+
+  function writeConsent(prefs) {
+    var oneYear = 60 * 60 * 24 * 365;
+    document.cookie =
+      'tv-cookie-consent=' + encodeURIComponent(JSON.stringify(prefs)) +
+      '; Max-Age=' + oneYear + '; Path=/; SameSite=Lax' +
+      (location.protocol === 'https:' ? '; Secure' : '');
+  }
+
+  function loadZendesk() {
+    if (document.getElementById('ze-snippet')) return;
+    var s = document.createElement('script');
+    s.id = 'ze-snippet';
+    s.async = true;
+    s.src = 'https://static.zdassets.com/ekr/snippet.js?key=' + ZENDESK_KEY;
+    document.head.appendChild(s);
+  }
+
+  function hideBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'none';
+  }
+  function showBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'block';
+  }
+
+  var current = readConsent();
+  if (current && current.chat === true) {
+    loadZendesk();
+  } else if (!current) {
+    showBanner();
+  }
+
+  document.getElementById('tv-cookie-accept').addEventListener('click', function () {
+    writeConsent({chat: true, ts: Date.now()});
+    hideBanner();
+    loadZendesk();
+  });
+  document.getElementById('tv-cookie-reject').addEventListener('click', function () {
+    writeConsent({chat: false, ts: Date.now()});
+    hideBanner();
+  });
+
+  // Both the footer link and the in-body "Manage cookies" link in §2 reopen
+  // the banner.
+  ['tv-manage-cookies', 'tv-priv-manage-cookies'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function (e) { e.preventDefault(); showBanner(); });
+  });
+})();
+</script>
 
 </body>
 </html>
