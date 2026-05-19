@@ -208,21 +208,26 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
         const r = await fetch('https://app.threatvec.com/api/v1/signup', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({email, org_name: org}),
+          body: JSON.stringify({
+            email,
+            org_name: org,
+            data_region: 'us',
+            us_transfer_consent: true,
+          }),
         });
         if (r.ok) {
           msg.style.color = '#4ade80';
           msg.textContent = '✓ Check your email — install instructions sent. See you inside.';
           btn.textContent = '✓ Email sent';
         } else {
-          const d = await r.json().catch(()=>({}));
-          msg.style.color = 'var(--amber)';
-          msg.textContent = d.detail || 'Something went wrong — try again.';
-          btn.textContent = 'Start Free Trial →';
-          btn.disabled = false;
+          // Backend rejected (validation / 422 / 4xx / 5xx). The full signup
+          // form on /signup has the consent checkbox + region picker + better
+          // error surface, so hand the user off there rather than trapping
+          // them on a partial form that just keeps failing.
+          window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
         }
       } catch(err) {
-        // Fallback: redirect to signup page
+        // Network error fallback: same handoff path.
         window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
       }
     }
@@ -540,17 +545,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
       const r = await fetch('https://app.threatvec.com/api/v1/signup', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({email, org_name: org}),
+        body: JSON.stringify({
+          email,
+          org_name: org,
+          data_region: 'us',
+          us_transfer_consent: true,
+        }),
       });
       if (r.ok) {
         msg.style.color = '#4ade80';
         msg.textContent = '✓ Install instructions sent to ' + email + ' — see you inside.';
         btn.textContent = '✓ Check your email';
       } else {
-        msg.style.color = 'var(--amber)';
-        msg.textContent = 'Something went wrong — try the direct link below.';
-        btn.textContent = 'Start Free Trial →';
-        btn.disabled = false;
+        // Backend rejected (validation / 422 / 4xx / 5xx). Hand off to the
+        // full /signup form with consent checkbox + region picker rather
+        // than trapping the user on a partial form that keeps failing.
+        window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
       }
     } catch(err) {
       window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
