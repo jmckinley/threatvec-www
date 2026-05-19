@@ -481,110 +481,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
   </div>
 </section>
 
-<!-- ── COMPARE vs AI-NATIVE VENDORS — Sprint EL-5 ────────────────────────────
-     CISOs increasingly compare ThreatVec against AI-specific vendors
-     (Lakera, Acuvity, Cisco AI Defense) rather than the CASB/SIEM/DLP
-     stack above. This block answers that question honestly. Cells use
-     "?" rather than ✗ where competitor public material doesn't confirm
-     either way — we'd rather a buyer trust this table than catch us
-     overclaiming in their procurement review. Verified via WebFetch of
-     each vendor's public product page 2026-05-19. -->
-<section id="compare-ai" style="background:#0a0a18;border-top:1px solid var(--border);">
-  <div class="section-inner">
-    <div class="section-label">Compare</div>
-    <h2 class="section-title">ThreatVec vs. AI-Native Security Vendors</h2>
-    <p class="section-sub">Honest, side-by-side. Where competitor public docs don't confirm a capability either way, we mark it "?" instead of "✗" — your team should validate before procurement.</p>
-    <div class="compare-wrap">
-      <table id="compare-vs-ai">
-        <thead>
-          <tr>
-            <th>Capability</th>
-            <th class="highlight">ThreatVec</th>
-            <th>Lakera Guard</th>
-            <th>Acuvity <span style="font-weight:400;color:var(--muted);font-size:.65rem">(now Proofpoint AI Security)</span></th>
-            <th>Cisco AI Defense</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Continuous, autonomous red team (7-stage loop: intel → generate → verify → execute → patch → re-verify → learn)</td>
-            <td class="highlight yes">✓ Always-on</td>
-            <td class="partial">~ On-demand / scheduled (Gandalf + GenAI Red Teaming product line)</td>
-            <td class="no">Not advertised</td>
-            <td class="partial">~ Algorithmic vulnerability testing (per vendor messaging)</td>
-          </tr>
-          <tr>
-            <td>MCP server integrity scanning (catches malicious tool descriptions, line-numbered evidence)</td>
-            <td class="highlight yes">✓ Automated, per-server</td>
-            <td class="no">Not advertised</td>
-            <td class="partial">~ MCP boundary auth + approved-server registry (governance, not integrity)</td>
-            <td class="partial">?</td>
-          </tr>
-          <tr>
-            <td>Tamper-evident, hash-chained audit log</td>
-            <td class="highlight yes">✓ Per-LLM-call chain + chain-break alerts</td>
-            <td class="partial">?</td>
-            <td class="partial">~ "Defensible audit trail" (no tamper-evidence claim)</td>
-            <td class="partial">?</td>
-          </tr>
-          <tr>
-            <td>EU data residency (at-rest, not just routing)</td>
-            <td class="highlight yes">✓ Frankfurt regional Postgres (live)</td>
-            <td class="partial">?</td>
-            <td class="partial">?</td>
-            <td class="partial">?</td>
-          </tr>
-          <tr>
-            <td>Free trial length</td>
-            <td class="highlight yes">✓ 6 months, no credit card</td>
-            <td class="partial">~ Free tier ("Start for free"); no published trial length for Guard</td>
-            <td class="no">Demo-request only</td>
-            <td class="no">Enterprise sales motion</td>
-          </tr>
-          <tr>
-            <td>MITRE ATLAS technique coverage (mapped scenarios + gap report endpoint)</td>
-            <td class="highlight yes">✓ 47 techniques in /atlas-coverage</td>
-            <td class="no">Not advertised on product pages</td>
-            <td class="no">Not advertised on product pages</td>
-            <td class="partial">?</td>
-          </tr>
-          <tr>
-            <td>HIPAA BAA workflow (request → countersign → audit)</td>
-            <td class="highlight yes">✓ Self-serve at /support/baa</td>
-            <td class="partial">?</td>
-            <td class="partial">? (Proofpoint enterprise BAA likely available; not on Acuvity page)</td>
-            <td class="partial">? (Cisco enterprise BAA process)</td>
-          </tr>
-          <tr>
-            <td>NIST AI RMF / EU AI Act / ISO 23894 / NIS2 / DORA mappings</td>
-            <td class="highlight yes">✓ Per-framework scorecard endpoints + exportable evidence</td>
-            <td class="partial">~ "Compliance & Regulatory Risks" category — no per-framework scorecards advertised</td>
-            <td class="partial">? (Proofpoint compliance posture: enterprise materials on request)</td>
-            <td class="partial">? (Cisco generally maps to NIST families)</td>
-          </tr>
-          <tr>
-            <td>Open-source corpus + public benchmark dashboard</td>
-            <td class="highlight yes">✓ <a href="https://app.threatvec.com/benchmarks" style="color:var(--accent2)">/benchmarks</a> + MIT-licensed corpus repo</td>
-            <td class="no">Proprietary detectors</td>
-            <td class="no">Proprietary platform</td>
-            <td class="no">Proprietary platform</td>
-          </tr>
-          <tr>
-            <td>Pricing transparency</td>
-            <td class="highlight yes">✓ Free during beta; published when GA</td>
-            <td class="partial">~ "Start for free" tier; Guard pricing not published</td>
-            <td class="no">Contact sales</td>
-            <td class="no">Contact sales</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="margin-top:1.5rem;font-size:.72rem;color:var(--muted);max-width:880px;">
-      <strong style="color:var(--muted2)">Methodology.</strong>
-      Competitor cells verified against each vendor's public product page on 2026-05-19. Cells marked <span style="color:var(--amber)">"?"</span> mean the competitor's public material doesn't confirm the capability either way — we'd rather you check than catch us guessing. Acuvity was acquired by Proofpoint; <code style="color:var(--accent2)">acuvity.ai</code> now 301-redirects to <code style="color:var(--accent2)">proofpoint.com/us/platform/ai-security</code>. Full trust posture, sub-processors, DPA, and EU representative status at <a href="https://app.threatvec.com/trust" style="color:var(--accent2)">app.threatvec.com/trust</a>.
-    </p>
-  </div>
-</section>
+<!-- Sprint EL-5: AI-vendor compare table removed. Half-researched cells
+     ("?" for ~70% of competitor capabilities) read as either ignorance
+     of the market or hedging — both worse than no table. When we ship
+     a compare it will be fully-cell-verified with footnoted methodology
+     and quarterly refresh. Tracked in beta-readiness doc under EL-6. -->
+
 
 <div class="divider"></div>
 
