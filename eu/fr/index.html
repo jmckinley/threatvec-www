@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Règlement européen sur l’IA : détectez et gouvernez l’IA fantôme | ThreatVec</title>
+<meta name="description" content="Détectez l’IA fantôme, testez-la en continu par red team et exportez des preuves prêtes pour l’audit (règlement IA, NIS2, DORA) — avec vos données hébergées à Francfort. Gratuit pendant 6 mois, installé en 10 minutes."/>
+<link rel="canonical" href="https://threatvec.com/eu/fr/"/>
+<!-- hreflang : chaque page linguistique pointe vers les trois + x-default -->
+<link rel="alternate" hreflang="en" href="https://threatvec.com/eu/"/>
+<link rel="alternate" hreflang="de" href="https://threatvec.com/eu/de/"/>
+<link rel="alternate" hreflang="fr" href="https://threatvec.com/eu/fr/"/>
+<link rel="alternate" hreflang="x-default" href="https://threatvec.com/eu/"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/assets/site.css"/>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="logo-dot"></span>ThreatVec</a>
+    <div class="nav-links">
+      <a href="#urgency">Règlement IA</a>
+      <a href="#difference">Ce qui change</a>
+      <a href="#residency">Hébergement UE</a>
+      <a href="#compliance">Preuves de conformité</a>
+      <a href="#how">Comment ça marche</a>
+      <a href="https://app.threatvec.com/trust">Trust</a>
+    </div>
+    <div class="nav-right">
+      <!-- Sélecteur de langue — FR actif sur cette page -->
+      <div class="lang-switch" aria-label="Langue">
+        <a href="/eu/" hreflang="en" lang="en">EN</a><span class="sep">|</span><a href="/eu/de/" hreflang="de" lang="de">DE</a><span class="sep">|</span><a href="/eu/fr/" class="active" hreflang="fr" lang="fr">FR</a>
+      </div>
+      <a href="https://app.threatvec.com" class="btn-ghost">Se connecter</a>
+      <a href="https://app.threatvec.com/signup?region=eu" class="btn-primary">Commencer — UE</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Le règlement IA s’applique · Données hébergées à Francfort · 6 mois gratuits
+    </div>
+    <h1>Le règlement européen sur l’IA s’applique.<br><em>Savez-vous quelle IA utilisent vos collaborateurs ?</em></h1>
+    <p class="hero-sub">Détectez l’IA fantôme (« Shadow AI ») qui tourne déjà dans votre organisation, testez-la en continu par red team et exportez des preuves prêtes pour l’audit (règlement IA, NIS2, DORA) — avec vos données hébergées à Francfort, gratuit pendant 6 mois, installé en 10 minutes.</p>
+
+    <!-- Formulaire d’inscription — même logique fonctionnelle que le site principal,
+         POST vers l’API d’inscription. Les pages UE utilisent data_region:'eu' par défaut. -->
+    <form id="hero-form" style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.25rem" onsubmit="heroSignup(event)">
+      <input id="hero-email" type="email" placeholder="vous@entreprise.fr" required
+             style="padding:.75rem 1rem;border-radius:.5rem;border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-size:.95rem;width:240px;outline:none;transition:border .15s"
+             onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'">
+      <input id="hero-org" type="text" placeholder="Nom de l’entreprise" required
+             style="padding:.75rem 1rem;border-radius:.5rem;border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-size:.95rem;width:200px;outline:none;transition:border .15s"
+             onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'">
+      <button type="submit" id="hero-btn" class="btn-lg btn-lg-primary" style="white-space:nowrap">
+        Commencer gratuitement — hébergement UE →
+      </button>
+    </form>
+    <div id="hero-msg" style="min-height:1.5rem;font-size:.85rem;color:var(--muted2);margin-bottom:1.5rem;text-align:center"></div>
+
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">10 min</div><div class="hero-stat-label">De l’inscription au premier inventaire</div></div>
+      <div><div class="hero-stat-num">180 jours</div><div class="hero-stat-label">Gratuit, sans carte bancaire</div></div>
+      <div><div class="hero-stat-num">Francfort</div><div class="hero-stat-label">Hébergement UE, opérationnel</div></div>
+      <div><div class="hero-stat-num">554+</div><div class="hero-stat-label">services d’IA détectés</div></div>
+    </div>
+
+    <script>
+    // Inscription hero UE — région 'eu' par défaut. En cas de rejet du backend,
+    // on bascule vers le formulaire /signup complet (consentement + choix de
+    // région) plutôt que de bloquer l’utilisateur sur un formulaire partiel.
+    async function heroSignup(e) {
+      e.preventDefault();
+      const btn = document.getElementById('hero-btn');
+      const msg = document.getElementById('hero-msg');
+      const email = document.getElementById('hero-email').value.trim();
+      const org   = document.getElementById('hero-org').value.trim();
+      btn.textContent = 'Configuration…';
+      btn.disabled = true;
+      try {
+        const r = await fetch('https://app.threatvec.com/api/v1/signup', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            email,
+            org_name: org,
+            data_region: 'eu',
+          }),
+        });
+        if (r.ok) {
+          msg.style.color = '#4ade80';
+          msg.textContent = '✓ Consultez vos e-mails — les instructions d’installation ont été envoyées. Vos données sont hébergées à Francfort.';
+          btn.textContent = '✓ E-mail envoyé';
+        } else {
+          window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
+        }
+      } catch(err) {
+        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
+      }
+    }
+    </script>
+  </div>
+</div>
+
+<div class="divider" style="max-width:1200px;"></div>
+
+<!-- ── URGENCE (traitée honnêtement — pas de compte à rebours vers une date contestée) ── -->
+<section id="urgency">
+  <div class="section-inner">
+    <div class="section-label">Pourquoi maintenant</div>
+    <h2 class="section-title">L’application a commencé. La première question des auditeurs : « Quelle IA utilisez-vous ? »</h2>
+    <p class="section-sub">Le règlement européen sur l’IA est entré en vigueur en 2024 et s’applique par étapes. Les interdictions de certaines pratiques et les obligations de maîtrise de l’IA s’appliquent déjà ; l’applicabilité complète intervient en août 2026. Vous n’avez pas besoin d’un compte à rebours pour agir — vous avez besoin d’un inventaire.</p>
+    <div class="threat-grid">
+      <div class="threat-card">
+        <div class="threat-icon">📅</div>
+        <div class="threat-title">En vigueur, échéances qui se précisent</div>
+        <div class="threat-desc">Des obligations clés s’appliquent déjà ; l’applicabilité élargie arrive en août 2026. Certains calendriers pour les systèmes à haut risque pourraient évoluer via le « Digital Omnibus » proposé — la stratégie avisée consiste donc à prendre de l’avance, pas à parier sur une seule date.</div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">👤</div>
+        <div class="threat-title">~80 % des employés utilisent une IA non approuvée</div>
+        <div class="threat-desc">L’IA fantôme est le problème immédiat cité par les régulateurs : les collaborateurs copient-collent déjà des documents internes dans des outils que personne n’a approuvés. Ce que vous ne voyez pas, vous ne pouvez ni le gouverner ni en apporter la preuve.</div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">🔓</div>
+        <div class="threat-title">~38 % partagent des données confidentielles</div>
+        <div class="threat-desc">Une part importante des employés admet partager des données confidentielles ou clients avec des outils d’IA. C’est une exposition RGPD et secret des affaires qui existe aujourd’hui, avant toute échéance du règlement IA.</div>
+      </div>
+      <div class="threat-card">
+        <div class="threat-icon">📋</div>
+        <div class="threat-title">L’inventaire + les preuves : le premier livrable</div>
+        <div class="threat-desc">Avant la classification des risques ou les travaux de conformité, il vous faut un inventaire défendable et continuellement mis à jour de l’IA utilisée — et la piste de preuves qui montre à un régulateur comment vous le tenez à jour.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── DIFFÉRENCIATION ── -->
+<section id="difference" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="section-label">Ce qui change</div>
+    <h2 class="section-title">Détection <em style="font-style:normal;color:var(--accent2)">et</em> red team continu <em style="font-style:normal;color:var(--accent2)">et</em> preuves de conformité — dans une seule plateforme, hébergée dans l’UE</h2>
+    <p class="section-sub">La plupart des outils ne couvrent qu’une partie du besoin. ThreatVec en combine quatre — et fonctionne sur une infrastructure hébergée dans l’UE avec une offre gratuite en libre-service. Nous mettons en avant la combinaison ; nous ne formulons aucune affirmation fausse sur les autres.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Détection de l’IA fantôme</div>
+        <div class="feature-desc">Extension Chrome + analyse de l’hôte + agent local détectent tous les services d’IA utilisés — plus de 554 outils nommés dans 24 catégories — sans modification réseau.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Red team autonome et continu</div>
+        <div class="feature-desc">Une boucle permanente en 7 étapes (renseignement → générer → vérifier → exécuter → corriger → revérifier → apprendre) teste votre IA face à des techniques d’attaque antagonistes et suit la couverture.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📜</div>
+        <div class="feature-title">Preuves de conformité</div>
+        <div class="feature-desc">Tableaux de bord en direct par contrôle et dossiers de preuves prêts pour l’audit, expurgés des PII et secrets, pour les référentiels que vos auditeurs utilisent réellement.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🇪🇺</div>
+        <div class="feature-title">Hébergement UE opérationnel</div>
+        <div class="feature-desc">Le routage régional par client conserve les données des clients UE au repos à Francfort. Choisi à l’inscription, fail-closed, isolation testée en CI.</div>
+      </div>
+    </div>
+
+    <div class="compare-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Capacité</th>
+            <th class="highlight">ThreatVec</th>
+            <th>Outils de gouvernance / détection <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">ex. Holistic AI, Zenity, Credo AI</span></th>
+            <th>Outils de red team IA <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">ex. Giskard (natif UE), Lakera, Mindgard</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Détection de l’IA fantôme (poste + hôte)</td><td class="highlight yes">✓ Intégrée</td><td class="partial">~ Axé gouvernance/registre</td><td class="no">✗ Pas leur axe principal</td></tr>
+          <tr><td>Red team autonome et continu</td><td class="highlight yes">✓ Boucle permanente en 7 étapes</td><td class="no">✗ Pas leur axe principal</td><td class="yes" style="color:var(--green)">✓ Point fort principal</td></tr>
+          <tr><td>Export de preuves de conformité par référentiel</td><td class="highlight yes">✓ Tableaux de bord + dossiers de preuves</td><td class="yes" style="color:var(--green)">✓ Point fort principal</td><td class="partial">~ Rapports de test</td></tr>
+          <tr><td>Hébergement UE opérationnel (au repos)</td><td class="highlight yes">✓ Francfort, par client</td><td class="partial">— selon le fournisseur</td><td class="partial">— selon le fournisseur</td></tr>
+          <tr><td>Offre gratuite en libre-service</td><td class="highlight yes">✓ 180 jours, sans carte</td><td class="partial">— souvent piloté par les ventes</td><td class="partial">— souvent piloté par les ventes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.75rem;color:var(--muted2);max-width:880px;line-height:1.7;">
+      Les fournisseurs sont regroupés selon leur axe principal annoncé, sans minimiser leur profondeur dans ce domaine — Giskard, par exemple, est un solide fournisseur de red team natif de l’UE. Lorsque le matériel public d’un concurrent ne confirme ni n’infirme une capacité, nous la marquons <span style="color:var(--amber)">« — selon le fournisseur »</span> plutôt que de deviner. L’essentiel est la <strong style="color:var(--accent2)">combinaison</strong> : ThreatVec réunit détection, red team, preuves et hébergement UE.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── HÉBERGEMENT UE : PREUVE ── -->
+<section id="residency">
+  <div class="section-inner">
+    <div class="section-label">Hébergement des données dans l’UE</div>
+    <h2 class="section-title">Vos données restent à Francfort</h2>
+    <p class="section-sub">Choisissez la région UE à l’inscription, et les données au repos de votre environnement client sont acheminées vers une infrastructure située à Francfort, en Allemagne. Le routage est par client et fail-closed — si la région UE ne peut être confirmée, la requête ne bascule pas silencieusement vers une autre région.</p>
+    <div class="residency-grid">
+      <div class="residency-card">
+        <div class="rc-icon">🇩🇪</div>
+        <div class="rc-title">Au repos à Francfort</div>
+        <div class="rc-desc">Les données des clients UE sont stockées dans une base PostgreSQL régionale hébergée à Francfort, en Allemagne (Hostinger), avec TLS en transit et une base dont le pare-feu n’autorise que notre hôte applicatif.</div>
+      </div>
+      <div class="residency-card">
+        <div class="rc-icon">🔀</div>
+        <div class="rc-title">Routage régional par client</div>
+        <div class="rc-desc">Chaque client est rattaché à sa région choisie. Le routage est fail-closed : si le magasin de données UE est injoignable, l’opération échoue plutôt que de recourir à un magasin hors UE.</div>
+      </div>
+      <div class="residency-card">
+        <div class="rc-icon">🧪</div>
+        <div class="rc-title">Isolation testée en CI</div>
+        <div class="rc-desc">Une suite de tests bi-régionale s’exécute en intégration continue pour défendre la frontière — elle vérifie, à chaque modification, que les données des clients UE ne fuient pas vers le magasin US.</div>
+      </div>
+      <div class="residency-card">
+        <div class="rc-icon">✅</div>
+        <div class="rc-title">Choisi à l’inscription, vérifiable en direct</div>
+        <div class="rc-desc">Vous choisissez votre région lors de l’inscription. L’état en direct de la région est publié sur notre API regions ; le tableau complet figure sur notre page Trust.</div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="https://app.threatvec.com/trust" class="btn-lg btn-lg-primary">Voir la page Trust →</a>
+      <a href="https://app.threatvec.com/api/v1/regions" class="btn-lg btn-lg-outline">Voir l’état des régions en direct</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PREUVES DE CONFORMITÉ ── -->
+<section id="compliance" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="two-col">
+      <div>
+        <div class="section-label">Preuves de conformité</div>
+        <h2 class="section-title">Tableaux de bord en direct et dossiers de preuves prêts pour l’audit</h2>
+        <p class="section-sub">ThreatVec rattache vos contrôles de sécurité de l’IA aux référentiels auxquels les équipes de l’UE doivent rendre des comptes, avec des tableaux de conformité en direct par contrôle et un export de dossier de preuves en un clic, expurgé des PII et des secrets.</p>
+        <ul class="check-list">
+          <li>Règlement européen sur l’IA — tableaux de conformité couvrant la gestion des risques (art. 9), la gouvernance des données (art. 10), l’enregistrement / la journalisation (art. 12) ainsi que l’exactitude &amp; la robustesse (art. 15)</li>
+          <li>NIS2 — correspondance des mesures de sécurité et des preuves d’incident</li>
+          <li>DORA — preuves de risque TIC et de résilience opérationnelle numérique</li>
+          <li>ISO/IEC 23894 — lignes directrices de gestion des risques liés à l’IA</li>
+          <li>NIST AI Risk Management Framework — Govern / Map / Measure / Manage</li>
+          <li>OWASP LLM Top 10 — les dix contrôles évalués et exportables</li>
+        </ul>
+        <div class="caveat">
+          <strong>Une note honnête sur la portée.</strong>
+          La détection continue de l’IA fantôme est une donnée d’entrée directe pour les obligations du règlement IA relatives à l’inventaire de l’IA et à la surveillance après commercialisation. Il s’agit d'<strong>une donnée d’entrée qui vient compléter votre propre gouvernance — et non d’une attestation de conformité à elle seule</strong>. ThreatVec produit des preuves ; la responsabilité de vos obligations au titre du règlement IA reste celle de votre organisation.
+        </div>
+      </div>
+      <div>
+        <div class="code-block">
+          <span class="c"># Récupérer un tableau de conformité en direct du règlement IA</span><br>
+          curl https://app.threatvec.com/api/v1/compliance/eu-ai-act/scorecard \<br>
+          &nbsp;&nbsp;-H <span class="s">"X-Org-Key: tvk_..."</span><br><br>
+          <span class="c"># Réponse :</span><br>
+          {<br>
+          &nbsp;&nbsp;<span class="n">"framework"</span>: <span class="s">"EU AI Act"</span>,<br>
+          &nbsp;&nbsp;<span class="n">"articles"</span>: [<span class="s">"9"</span>, <span class="s">"10"</span>, <span class="s">"12"</span>, <span class="s">"15"</span>],<br>
+          &nbsp;&nbsp;<span class="n">"data_region"</span>: <span class="s">"eu"</span>,<br>
+          &nbsp;&nbsp;<span class="n">"generated_at"</span>: <span class="s">"2026-06-01T..."</span><br>
+          }<br><br>
+          <span class="c"># Exporter un dossier de preuves expurgé, prêt pour l’audit</span><br>
+          curl .../api/v1/compliance/evidence-pack?redact=pii,secrets \<br>
+          &nbsp;&nbsp;-H <span class="s">"X-Org-Key: tvk_..."</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── COMMENT ÇA MARCHE / CTA 10 MIN ── -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label">Déploiement</div>
+    <h2 class="section-title">De zéro visibilité à un inventaire d’IA en moins de 10 minutes</h2>
+    <p class="section-sub">Aucune modification d’infrastructure le premier jour. Gratuit 180 jours, sans carte bancaire, hébergé dans l’UE, auto-installable.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">S’inscrire — choisir l’UE</div>
+        <div class="step-desc">Choisissez la région UE à l’inscription. Les données au repos de votre environnement client sont rattachées à Francfort dès la première requête. Sans appel commercial, sans carte bancaire.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Installer l’extension Chrome</div>
+        <div class="step-desc">Disponible sur le Chrome Web Store. Voyez immédiatement quels services d’IA vos collaborateurs utilisent — ChatGPT, Claude, Gemini, Copilot — et si des PII sont collées.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Lancer l’analyse de l’hôte + l’agent local</div>
+        <div class="step-desc">Installation en une ligne pour macOS, Windows ou Linux. Détecte les outils de codage IA et les endpoints API qu’ils contactent. Remonte des données en quelques secondes.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Lire votre inventaire &amp; vos tableaux de conformité</div>
+        <div class="step-desc">Votre inventaire d’IA fantôme et vos tableaux de conformité en direct (règlement IA / NIS2 / DORA) apparaissent automatiquement — votre premier instantané auditable, prêt à exporter.</div>
+      </div>
+    </div>
+    <div class="code-block" style="max-width:580px;margin-top:2rem">
+      <span class="c"># Installation client en une ligne — tout est pré-rempli</span><br>
+      curl -sSL https://app.threatvec.com/client-setup.sh | bash
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CTA ── -->
+<div class="cta-section">
+  <div class="section-label" style="text-align:center">Commencer gratuitement — hébergement UE</div>
+  <h2 class="cta-title">Prenez de l’avance sur le règlement IA.<br>Commencez par l’inventaire qui vous manque.</h2>
+  <p class="cta-sub">Votre premier inventaire d’IA fantôme et vos tableaux de conformité en 10 minutes. Gratuit pendant 180 jours — sans carte bancaire, sans appel commercial, données hébergées à Francfort.</p>
+
+  <form id="cta-form" style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem" onsubmit="ctaSignup(event)">
+    <input id="cta-email" type="email" placeholder="vous@entreprise.fr" required
+           style="padding:.75rem 1rem;border-radius:.5rem;border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-size:.95rem;width:260px;outline:none;transition:border .15s"
+           onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'">
+    <input id="cta-org" type="text" placeholder="Nom de l’entreprise" required
+           style="padding:.75rem 1rem;border-radius:.5rem;border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-size:.95rem;width:220px;outline:none;transition:border .15s"
+           onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'">
+    <button type="submit" id="cta-btn" class="btn-lg btn-lg-primary">Commencer gratuitement — hébergement UE →</button>
+  </form>
+  <div id="cta-msg" style="min-height:1.5rem;font-size:.85rem;color:var(--muted2);text-align:center"></div>
+  <p style="margin-top:1.25rem;font-size:.8rem;color:var(--muted)">Sans carte bancaire · Bêta gratuite de 180 jours · Données hébergées à Francfort · Auto-installable · Extension Chrome disponible</p>
+
+  <script>
+  async function ctaSignup(e) {
+    e.preventDefault();
+    const btn = document.getElementById('cta-btn');
+    const msg = document.getElementById('cta-msg');
+    const email = document.getElementById('cta-email').value.trim();
+    const org   = document.getElementById('cta-org').value.trim();
+    btn.textContent = 'Configuration…';
+    btn.disabled = true;
+    try {
+      const r = await fetch('https://app.threatvec.com/api/v1/signup', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          email,
+          org_name: org,
+          data_region: 'eu',
+        }),
+      });
+      if (r.ok) {
+        msg.style.color = '#4ade80';
+        msg.textContent = '✓ Instructions d’installation envoyées à ' + email + ' — vos données sont hébergées à Francfort.';
+        btn.textContent = '✓ Consultez vos e-mails';
+      } else {
+        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
+      }
+    } catch(err) {
+      window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
+    }
+  }
+  </script>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div style="font-weight:700;color:var(--text);margin-bottom:.5rem">ThreatVec</div>
+      <div>AI Agent Security Posture Management<br>© 2026 Great Falls Ventures LLC</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://app.threatvec.com/signup?region=eu" style="color:var(--accent2);font-weight:600">Commencer — UE</a>
+      <a href="/">Accueil</a>
+      <a href="https://app.threatvec.com">Se connecter</a>
+      <a href="https://app.threatvec.com/trust">Trust</a>
+      <a href="https://app.threatvec.com/support">Support</a>
+      <a href="https://github.com/ThreatVecOrg">GitHub</a>
+      <a href="/privacy">Confidentialité</a>
+      <a href="https://app.threatvec.com/docs/dpa">DPA</a>
+      <a href="#" id="tv-manage-cookies">Gérer les cookies</a>
+      <a href="mailto:support@threatvec.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Bannière de consentement aux cookies — reprise du site principal, pour complétude + conformité. -->
+<div id="tv-cookie-banner"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="tv-cookie-banner-title"
+     style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--accent3);padding:14px 20px;z-index:200;font-size:13px;line-height:1.5;box-shadow:0 -4px 20px rgba(0,0,0,.5)">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;color:var(--muted2)">
+      <strong id="tv-cookie-banner-title" style="color:var(--text)">Cookies &amp; confidentialité.</strong>
+      Nous n’utilisons aucun traceur analytique ou publicitaire sur cette page. Si vous choisissez de discuter avec nous, notre widget d’aide (Zendesk) dépose des cookies internes sur <code style="color:var(--accent2)">threatvec.com</code> pour conserver le contexte de la conversation.
+      <a href="/privacy" style="color:var(--accent2)" target="_blank" rel="noopener">Politique de confidentialité</a>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="tv-cookie-reject" type="button"
+              style="padding:8px 16px;background:transparent;color:var(--muted2);border:1px solid var(--border2);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">
+        Refuser (sans chat)
+      </button>
+      <button id="tv-cookie-accept" type="button"
+              style="padding:8px 16px;background:var(--accent3);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700">
+        Accepter &amp; activer le chat
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var ZENDESK_KEY = 'a1aa92e2-6c9a-479d-826c-c165f761d3c2';
+
+  function readConsent() {
+    var m = document.cookie.match(/(?:^|;\s*)tv-cookie-consent=([^;]+)/);
+    if (!m) return null;
+    try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return null; }
+  }
+
+  function writeConsent(prefs) {
+    var oneYear = 60 * 60 * 24 * 365;
+    document.cookie =
+      'tv-cookie-consent=' + encodeURIComponent(JSON.stringify(prefs)) +
+      '; Max-Age=' + oneYear + '; Path=/; SameSite=Lax' +
+      (location.protocol === 'https:' ? '; Secure' : '');
+  }
+
+  function loadZendesk() {
+    if (document.getElementById('ze-snippet')) return;
+    var s = document.createElement('script');
+    s.id = 'ze-snippet';
+    s.async = true;
+    s.src = 'https://static.zdassets.com/ekr/snippet.js?key=' + ZENDESK_KEY;
+    document.head.appendChild(s);
+  }
+
+  function hideBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'none';
+  }
+  function showBanner() {
+    var b = document.getElementById('tv-cookie-banner');
+    if (b) b.style.display = 'block';
+  }
+
+  var current = readConsent();
+  if (current && current.chat === true) {
+    loadZendesk();
+  } else if (!current) {
+    showBanner();
+  }
+
+  document.getElementById('tv-cookie-accept').addEventListener('click', function () {
+    writeConsent({chat: true, ts: Date.now()});
+    hideBanner();
+    loadZendesk();
+  });
+  document.getElementById('tv-cookie-reject').addEventListener('click', function () {
+    writeConsent({chat: false, ts: Date.now()});
+    hideBanner();
+  });
+
+  var mgr = document.getElementById('tv-manage-cookies');
+  if (mgr) {
+    mgr.addEventListener('click', function (e) {
+      e.preventDefault();
+      showBanner();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
