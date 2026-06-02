@@ -84,26 +84,11 @@
       const org   = document.getElementById('hero-org').value.trim();
       btn.textContent = 'Setting up…';
       btn.disabled = true;
-      try {
-        const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            email,
-            org_name: org,
-            data_region: 'eu',
-          }),
-        });
-        if (r.ok) {
-          msg.style.color = '#4ade80';
-          msg.textContent = '✓ Check your email — install instructions sent. Your data is resident in Frankfurt.';
-          btn.textContent = '✓ Email sent';
-        } else {
-          window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-        }
-      } catch(err) {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
+      window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
     }
     </script>
   </div>
@@ -230,6 +215,10 @@
         <div class="rc-desc">You pick your region during signup. The live region status is published at our regions endpoint, and the full picture is on our trust page.</div>
       </div>
     </div>
+        <p style="margin-top:1.75rem;font-size:.8rem;color:var(--muted);line-height:1.7;max-width:880px;">
+      <strong style="color:var(--muted2)">Processing vs. storage — an honest note.</strong>
+      EU-region customer data is <em>stored at rest</em> in Frankfurt. Some processing still runs through US sub-processors under EU Standard Contractual Clauses and the EU-US Data Privacy Framework — LLM analysis (Anthropic, DeepSeek), authentication (Clerk) and transactional email (Resend). Customer-submitted content is never routed to DeepSeek. The full sub-processor list is in our <a href="/privacy" style="color:var(--accent2)">privacy policy</a>, and the same disclosure is shown as consent at signup.
+    </p>
     <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
       <a href="https://app.threatvec.com/trust" class="btn-lg btn-lg-primary">View the Trust page →</a>
       <a href="https://app.threatvec.com/api/v1/regions" class="btn-lg btn-lg-outline">See live region status</a>
@@ -347,26 +336,11 @@
     const org   = document.getElementById('cta-org').value.trim();
     btn.textContent = 'Setting up…';
     btn.disabled = true;
-    try {
-      const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          email,
-          org_name: org,
-          data_region: 'eu',
-        }),
-      });
-      if (r.ok) {
-        msg.style.color = '#4ade80';
-        msg.textContent = '✓ Install instructions sent to ' + email + ' — your data is resident in Frankfurt.';
-        btn.textContent = '✓ Check your email';
-      } else {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
-    } catch(err) {
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
       window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-    }
   }
   </script>
 </div>

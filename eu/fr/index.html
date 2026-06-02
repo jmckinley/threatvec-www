@@ -84,26 +84,11 @@
       const org   = document.getElementById('hero-org').value.trim();
       btn.textContent = 'Configuration…';
       btn.disabled = true;
-      try {
-        const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            email,
-            org_name: org,
-            data_region: 'eu',
-          }),
-        });
-        if (r.ok) {
-          msg.style.color = '#4ade80';
-          msg.textContent = '✓ Consultez vos e-mails — les instructions d’installation ont été envoyées. Vos données sont hébergées à Francfort.';
-          btn.textContent = '✓ E-mail envoyé';
-        } else {
-          window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-        }
-      } catch(err) {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
+      window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
     }
     </script>
   </div>
@@ -230,6 +215,10 @@
         <div class="rc-desc">Vous choisissez votre région lors de l’inscription. L’état en direct de la région est publié sur notre API regions ; le tableau complet figure sur notre page Trust.</div>
       </div>
     </div>
+        <p style="margin-top:1.75rem;font-size:.8rem;color:var(--muted);line-height:1.7;max-width:880px;">
+      <strong style="color:var(--muted2)">Traitement et stockage — une note en toute transparence.</strong>
+      Les données clients de la région UE sont <em>stockées au repos</em> à Francfort. Une partie du traitement passe encore par des sous-traitants américains, encadrés par les clauses contractuelles types de l’UE et le cadre EU-US Data Privacy Framework — analyse par IA (Anthropic, DeepSeek), authentification (Clerk) et e-mails transactionnels (Resend). Les contenus soumis par les clients ne sont jamais transmis à DeepSeek. La liste complète des sous-traitants figure dans notre <a href="/privacy" style="color:var(--accent2)">politique de confidentialité</a> ; la même information est présentée comme consentement lors de l’inscription.
+    </p>
     <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
       <a href="https://app.threatvec.com/trust" class="btn-lg btn-lg-primary">Voir la page Trust →</a>
       <a href="https://app.threatvec.com/api/v1/regions" class="btn-lg btn-lg-outline">Voir l’état des régions en direct</a>
@@ -347,26 +336,11 @@
     const org   = document.getElementById('cta-org').value.trim();
     btn.textContent = 'Configuration…';
     btn.disabled = true;
-    try {
-      const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          email,
-          org_name: org,
-          data_region: 'eu',
-        }),
-      });
-      if (r.ok) {
-        msg.style.color = '#4ade80';
-        msg.textContent = '✓ Instructions d’installation envoyées à ' + email + ' — vos données sont hébergées à Francfort.';
-        btn.textContent = '✓ Consultez vos e-mails';
-      } else {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
-    } catch(err) {
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
       window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-    }
   }
   </script>
 </div>

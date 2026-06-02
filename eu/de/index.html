@@ -84,26 +84,11 @@
       const org   = document.getElementById('hero-org').value.trim();
       btn.textContent = 'Wird eingerichtet…';
       btn.disabled = true;
-      try {
-        const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            email,
-            org_name: org,
-            data_region: 'eu',
-          }),
-        });
-        if (r.ok) {
-          msg.style.color = '#4ade80';
-          msg.textContent = '✓ Prüfen Sie Ihre E-Mails — die Installationsanleitung ist unterwegs. Ihre Daten liegen in Frankfurt.';
-          btn.textContent = '✓ E-Mail gesendet';
-        } else {
-          window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-        }
-      } catch(err) {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
+      window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
     }
     </script>
   </div>
@@ -230,6 +215,10 @@
         <div class="rc-desc">Sie wählen Ihre Region bei der Anmeldung. Der Live-Status der Region wird über unseren Regions-Endpunkt veröffentlicht; das Gesamtbild finden Sie auf unserer Trust-Seite.</div>
       </div>
     </div>
+        <p style="margin-top:1.75rem;font-size:.8rem;color:var(--muted);line-height:1.7;max-width:880px;">
+      <strong style="color:var(--muted2)">Verarbeitung vs. Speicherung — ein ehrlicher Hinweis.</strong>
+      Kundendaten der EU-Region werden <em>im Ruhezustand</em> in Frankfurt gespeichert. Ein Teil der Verarbeitung erfolgt weiterhin über US-Unterauftragsverarbeiter auf Grundlage der EU-Standardvertragsklauseln und des EU-US Data Privacy Framework — KI-Analyse (Anthropic, DeepSeek), Authentifizierung (Clerk) und transaktionale E-Mails (Resend). Von Kunden eingegebene Inhalte werden niemals an DeepSeek weitergeleitet. Die vollständige Liste der Unterauftragsverarbeiter finden Sie in unserer <a href="/privacy" style="color:var(--accent2)">Datenschutzerklärung</a>; dieselbe Offenlegung wird bei der Registrierung als Einwilligung angezeigt.
+    </p>
     <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
       <a href="https://app.threatvec.com/trust" class="btn-lg btn-lg-primary">Zur Trust-Seite →</a>
       <a href="https://app.threatvec.com/api/v1/regions" class="btn-lg btn-lg-outline">Live-Regionsstatus ansehen</a>
@@ -347,26 +336,11 @@
     const org   = document.getElementById('cta-org').value.trim();
     btn.textContent = 'Wird eingerichtet…';
     btn.disabled = true;
-    try {
-      const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          email,
-          org_name: org,
-          data_region: 'eu',
-        }),
-      });
-      if (r.ok) {
-        msg.style.color = '#4ade80';
-        msg.textContent = '✓ Installationsanleitung gesendet an ' + email + ' — Ihre Daten liegen in Frankfurt.';
-        btn.textContent = '✓ Prüfen Sie Ihre E-Mails';
-      } else {
-        window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
-    } catch(err) {
+      // EU trials require explicit US-transfer consent (GDPR Art. 13(1)(f)),
+      // collected on the full signup page — so carry the prospect there with
+      // EU preselected (?region=eu) instead of POSTing a consent-less signup
+      // the server correctly rejects with 422.
       window.location.href = `https://app.threatvec.com/signup?region=eu&email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-    }
   }
   </script>
 </div>
