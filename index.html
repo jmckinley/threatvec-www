@@ -502,9 +502,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
           <tr>
             <th>Capability</th>
             <th class="highlight">ThreatVec</th>
-            <th>Lakera Guard <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">(Cisco-owned, May 2025)</span></th>
-            <th>Cisco AI Defense</th>
-            <th>Robust Intelligence <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">(Cisco-owned, Oct 2024)</span></th>
+            <th>Lakera Guard <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">(Check Point-owned, Sep 2025)</span></th>
+            <th>Cisco AI Defense <span style="font-weight:400;color:var(--muted);font-size:.65rem;display:block;margin-top:.15rem">(incl. Robust Intelligence, acq. Cisco Oct 2024)</span></th>
           </tr>
         </thead>
         <tbody>
@@ -513,81 +512,71 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
             <td class="highlight yes">✓ Always-on 7-stage loop</td>
             <td class="no" title="lakera.ai/lakera-red: scheduled recurring testing, not always-on adversarial loop with re-verification (verified 2026-05-20)">✗ Scheduled / on-demand</td>
             <td class="yes" title="Cisco AI Defense Solution Overview: algorithmic red-teaming across 200+ categories, continuously updated via Talos (verified 2026-05-20)" style="color:var(--green)">✓ Algorithmic + continuous</td>
-            <td class="yes" title="Pre-acquisition Robust Intelligence platform performed continuous validation; now integrated into Cisco AI Defense AI Validation" style="color:var(--green)">✓ Continuous validation</td>
           </tr>
           <tr>
             <td>MCP server integrity scanning <span style="display:block;color:var(--muted);font-size:.7rem;margin-top:.15rem">catches malicious tool descriptions; line-numbered evidence</span></td>
             <td class="highlight yes">✓ Automated, per-server</td>
-            <td class="no" title="Lakera Guard acts as runtime guardrail on MCP inputs/outputs, not a static analyzer of tool definitions (lakera.ai blog, verified 2026-05-20)">✗ Runtime filter only</td>
+            <td class="partial" title="Lakera Guard runtime-filters MCP traffic AND ships Atlas (atlas.lakera.ai), a separate MCP-server scanner — but neither is unified into a continuous red-team/audit loop the way ThreatVec's is (verified 2026-06-02)">~ Runtime filter + Atlas (separate)</td>
             <td class="yes" title="github.com/cisco-ai-defense/mcp-scanner — Apache 2.0, scans MCP tools/prompts/resources for malicious patterns + CVE deps + binary malware (verified 2026-05-20)" style="color:var(--green)">✓ Open-source scanner shipped</td>
-            <td class="no" title="Original Robust Intelligence positioning was model/data validation, not MCP">✗ Not advertised</td>
           </tr>
           <tr>
             <td>Tamper-evident, hash-chained audit log</td>
             <td class="highlight yes">✓ Per-call hash chain + chain-break alerts</td>
             <td class="no" title="Lakera Guard product page lists 'Logs' but no tamper-evidence claim on any public surface (verified 2026-05-20)">✗ Logs only</td>
             <td class="no" title="No published tamper-evidence claim on AI Defense data sheet or solution overview (verified 2026-05-20)">✗ Not advertised</td>
-            <td class="no" title="No public tamper-evidence claim for the original Robust Intelligence audit surface">✗ Not advertised</td>
           </tr>
           <tr>
             <td>EU data residency (at-rest, not just routing)</td>
             <td class="highlight yes">✓ Frankfurt regional Postgres</td>
-            <td class="partial" title="lakera.ai/security confirms GDPR; docs/data-regions page returned a transient error 2026-05-20; trust portal sign-in-gated">— Not specified publicly</td>
+            <td class="partial" title="Lakera publishes an EU region (Ireland eu-west-1) with configurable log-storage + processing-region restriction; free Community tier is EU-hosted by default (docs.lakera.ai, verified 2026-06-02)">~ EU region (Ireland), configurable</td>
             <td class="yes" title="'In all VPC and AI POD deployments, AI Defense ensures that application/model/agent data remain fully within the customer's environment' — customer-VPC model trivially satisfies EU at-rest if VPC is EU (verified 2026-05-20)" style="color:var(--green)">✓ Customer-VPC model</td>
-            <td class="partial" title="Pre-acquisition docs no longer maintained; subsumed into Cisco AI Defense">— Subsumed into Cisco</td>
           </tr>
           <tr>
             <td>Free trial length / pricing transparency</td>
             <td class="highlight yes">✓ 6 months, no credit card</td>
             <td class="no" title="Community free tier exists at platform.lakera.ai; trial length not published; Pro/Enterprise pricing sales-gated (verified 2026-05-20)">✗ Free tier exists; trial length not published</td>
-            <td class="no" title="'Explorer Edition' free tier exists (duration not published); enterprise pricing 'based on quantity of AI Applications', list price not published (verified 2026-05-20)">✗ Explorer Edition; price not published</td>
-            <td class="no" title="Enterprise sales-led pre-acquisition; now folded into Cisco enterprise procurement">✗ Enterprise sales</td>
+            <td class="partial" title="Cisco AI Defense Explorer Edition: free, self-serve, no sales call — but red-team ONLY; full discovery+runtime+compliance stays enterprise/sales-led; list price not published (verified 2026-06-02)">~ Explorer free (red-team only)</td>
           </tr>
           <tr>
             <td>MITRE ATLAS coverage <span style="display:block;color:var(--muted);font-size:.7rem;margin-top:.15rem">count of techniques mapped to detectable scenarios</span></td>
             <td class="highlight yes">✓ 47 techniques, public endpoint</td>
             <td class="partial" title="Lakera blog claims 'Relevant for: All 14 MITRE ATLAS tactics' — tactic coverage, not technique count (verified 2026-05-20)">— Tactics mapped, count not published</td>
             <td class="yes" title="200+ subcategories mapped to OWASP/NIST/MITRE per Cisco AI Defense Solution Overview; per-technique ATLAS count not published (verified 2026-05-20)" style="color:var(--green)">✓ Mapped (count not published)</td>
-            <td class="yes" title="Robust Intelligence co-developed the AI Risk Database with MITRE; now open-source on GitHub, long-term plan to host under MITRE ATLAS tools" style="color:var(--green)">✓ MITRE collaboration (Risk DB)</td>
           </tr>
           <tr>
             <td>HIPAA BAA workflow (self-serve vs sales-driven)</td>
             <td class="highlight yes">✓ Self-serve at <a href="https://app.threatvec.com/support/baa" style="color:var(--accent2)">/support/baa</a></td>
             <td class="no" title="lakera.ai/security lists SOC-2 + GDPR; no HIPAA / BAA mention on public security page (verified 2026-05-20)">✗ Not advertised</td>
             <td class="no" title="Cisco enterprise BAA process exists historically; no AI Defense-specific self-serve workflow advertised (verified 2026-05-20)">✗ Sales-driven</td>
-            <td class="no" title="No specific BAA workflow advertised on pre-acquisition or post-acquisition surfaces">✗ Not advertised</td>
           </tr>
           <tr>
             <td>NIST AI RMF / EU AI Act / OWASP LLM Top 10 <span style="display:block;color:var(--muted);font-size:.7rem;margin-top:.15rem">per-framework exportable scorecards</span></td>
             <td class="highlight yes">✓ Per-framework scorecard endpoints</td>
             <td class="no" title="Lakera lists 'Compliance & Regulatory Risks' as a guardrail category; no per-framework scorecard or exportable evidence pack advertised (verified 2026-05-20)">✗ Category-level, not scorecards</td>
             <td class="yes" title="200+ subcategories mapped to OWASP/NIST/MITRE; 'supports compliance readiness including the EU AI Act'; per-framework export endpoint not specified (verified 2026-05-20)" style="color:var(--green)">✓ Mapped to OWASP/NIST/MITRE</td>
-            <td class="yes" title="Robust Intelligence: 'ensures compliance with AI security standards such as NIST, MITRE ATLAS, and OWASP LLM Top 10'" style="color:var(--green)">✓ NIST + OWASP + MITRE aligned</td>
           </tr>
           <tr>
             <td>Open-source corpus + public benchmark dashboard <span style="display:block;color:var(--muted);font-size:.7rem;margin-top:.15rem">verifies the detection claims</span></td>
             <td class="highlight yes">✓ <a href="https://app.threatvec.com/benchmarks" style="color:var(--accent2)">/benchmarks</a> + MIT corpus</td>
             <td class="no" title="Gandalf is a public game (data collection vehicle, not a benchmark dashboard of Lakera Guard's detection accuracy); detection models proprietary (verified 2026-05-20)">✗ Proprietary detectors</td>
             <td class="yes" title="github.com/cisco-ai-defense/mcp-scanner Apache 2.0 + Cisco Foundation AI open-source reasoning model; public benchmark dashboard of AI Defense detection accuracy not advertised (verified 2026-05-20)" style="color:var(--green)">✓ MCP-scanner + Foundation AI open</td>
-            <td class="yes" title="AI Risk Database open-sourced via MITRE collaboration (Robust Intelligence + MITRE, March 2023)" style="color:var(--green)">✓ AI Risk DB (MITRE-hosted)</td>
           </tr>
           <tr>
             <td>Customer-owned policy lifecycle <span style="display:block;color:var(--muted);font-size:.7rem;margin-top:.15rem">rules versioned in customer's git vs vendor's UI</span></td>
             <td class="highlight yes">✓ Policy export + git lifecycle</td>
             <td class="no" title="docs.lakera.ai/docs/policies: SaaS policies configured via Guard dashboard or policies API; no git-native customer-owned lifecycle (verified 2026-05-20)">✗ Dashboard + API only</td>
             <td class="partial" title="'generates custom model guardrails that integrate into CI/CD pipelines' — closer to customer-CI than peers; whether guardrails live in customer's git repo (vs Cisco dashboard) not specified (verified 2026-05-20)">— Guardrails into CI; ownership unclear</td>
-            <td class="no" title="No public claim on customer-owned policy lifecycle">✗ Not advertised</td>
           </tr>
         </tbody>
       </table>
     </div>
     <p style="margin-top:1.5rem;font-size:.75rem;color:var(--muted2);max-width:880px;line-height:1.7;">
-      <strong style="color:var(--accent2)">Last verified 2026-05-20 — refreshed quarterly.</strong>
+      <strong style="color:var(--accent2)">Last verified 2026-05-20 · corrected 2026-06-02 — refreshed quarterly.</strong>
       Hover any cell for the source note. Full per-row evidence (URLs + exact quotes) lives at <code style="color:var(--accent2);background:rgba(99,102,241,.08);padding:.1rem .35rem;border-radius:.25rem;font-size:.72rem">docs/research/ai-vendor-compare-2026-05-20.md</code> in our repo — we publish the methodology so you can audit the table rather than trust it.
     </p>
     <p style="margin-top:.75rem;font-size:.72rem;color:var(--muted);max-width:880px;line-height:1.7;">
       <strong style="color:var(--muted2)">Vendor consolidation note.</strong>
-      All three competitors above now sit under Cisco: it acquired Lakera (May 2025) and Robust Intelligence (Oct 2024), and ships Cisco AI Defense directly. If vendor diversity in your AI security stack matters, your options have narrowed faster than the marketing pages suggest.
+      The AI-security market is consolidating into a few large platforms: <strong>Check Point</strong> acquired Lakera (Sep 2025); <strong>Cisco</strong> acquired Robust Intelligence (Oct 2024) and ships Cisco AI Defense directly; <strong>Proofpoint</strong> acquired Acuvity (Feb 2026). If vendor diversity — or a self-serve, EU-resident option outside the big platforms — matters to your AI-security stack, that independence is itself getting scarce.
     </p>
     <p style="margin-top:1rem;font-size:.78rem;color:var(--muted2);max-width:880px;">
       Spot something wrong? Email <a href="mailto:security@threatvec.com" style="color:var(--accent2)">security@threatvec.com</a> — we'll verify and update within 5 business days.
