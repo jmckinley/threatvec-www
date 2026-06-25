@@ -171,7 +171,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
   <div class="hero-inner">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      Free 6-month trial · No credit card · Setup in 5 minutes
+      Now in public beta · Free 6-month trial · No credit card · 5-min setup
     </div>
     <h1>Catch Shadow AI<br><em>Before It Becomes a Breach</em></h1>
     <p class="hero-sub">Know exactly what your AI agents are doing — in real time. ThreatVec detects unregistered agents, malicious MCP servers, and employees leaking data to ChatGPT before your next board meeting.</p>
@@ -188,7 +188,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
         Start Free Trial →
       </button>
     </form>
-    <div id="hero-msg" style="min-height:1.5rem;font-size:.85rem;color:var(--muted2);margin-bottom:1.5rem;text-align:center"></div>
+    <div id="hero-msg" style="min-height:1.5rem;font-size:.85rem;color:var(--muted2);margin-bottom:.4rem;text-align:center"></div>
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:1.5rem;text-align:center">Or sign up in seconds with <strong style="color:var(--text)">GitHub</strong>, <strong style="color:var(--text)">Google</strong>, or email — no credit card.</div>
 
     <div class="hero-stats">
       <div><div class="hero-stat-num">5 min</div><div class="hero-stat-label">Time to first signal</div></div>
@@ -198,40 +199,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
     </div>
 
     <script>
-    async function heroSignup(e) {
+    // The /signup page carries the Turnstile captcha (required since the
+    // public-beta launch), the consent checkbox + region picker, and the
+    // GitHub/Google/email sign-up options. We capture email + company here and
+    // hand off to it (prefilled) — a direct POST /api/v1/signup has no captcha
+    // token and is now rejected (403), so the inline path routes through /signup.
+    function heroSignup(e) {
       e.preventDefault();
-      const btn = document.getElementById('hero-btn');
-      const msg = document.getElementById('hero-msg');
       const email = document.getElementById('hero-email').value.trim();
       const org   = document.getElementById('hero-org').value.trim();
-      btn.textContent = 'Setting up…';
-      btn.disabled = true;
-      try {
-        const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            email,
-            org_name: org,
-            data_region: 'us',
-            us_transfer_consent: true,
-          }),
-        });
-        if (r.ok) {
-          msg.style.color = '#4ade80';
-          msg.textContent = '✓ Check your email — install instructions sent. See you inside.';
-          btn.textContent = '✓ Email sent';
-        } else {
-          // Backend rejected (validation / 422 / 4xx / 5xx). The full signup
-          // form on /signup has the consent checkbox + region picker + better
-          // error surface, so hand the user off there rather than trapping
-          // them on a partial form that just keeps failing.
-          window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-        }
-      } catch(err) {
-        // Network error fallback: same handoff path.
-        window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
+      window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
     }
     </script>
   </div>
@@ -623,7 +600,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
 <div class="cta-section">
   <div class="section-label" style="text-align:center">Start Free</div>
   <h2 class="cta-title">Your team's AI agents are running right now.<br>Do you know what they're doing?</h2>
-  <p class="cta-sub">Get your first AI security score in 5 minutes. Free for 6 months — no credit card, no sales call.</p>
+  <p class="cta-sub">Get your first AI security score in 5 minutes. Free for 6 months — no credit card, no sales call. Sign up with GitHub, Google, or email.</p>
 
   <form id="cta-form" style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem" onsubmit="ctaSignup(event)">
     <input id="cta-email" type="email" placeholder="you@company.com" required
@@ -638,38 +615,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
   <p style="margin-top:1.25rem;font-size:.8rem;color:var(--muted)">No credit card · 6-month free trial · SOC 2 Phase 1 complete · HIPAA &amp; GDPR controls · Data preserved if you upgrade</p>
 
   <script>
-  async function ctaSignup(e) {
+  // Capture email + company, then hand off to /signup (prefilled) — it carries
+  // the Turnstile captcha (required since the public-beta launch), consent +
+  // region picker, and GitHub/Google/email sign-up. A direct POST to
+  // /api/v1/signup has no captcha token and is now rejected (403).
+  function ctaSignup(e) {
     e.preventDefault();
-    const btn = document.getElementById('cta-btn');
-    const msg = document.getElementById('cta-msg');
     const email = document.getElementById('cta-email').value.trim();
     const org   = document.getElementById('cta-org').value.trim();
-    btn.textContent = 'Setting up…';
-    btn.disabled = true;
-    try {
-      const r = await fetch('https://app.threatvec.com/api/v1/signup', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          email,
-          org_name: org,
-          data_region: 'us',
-          us_transfer_consent: true,
-        }),
-      });
-      if (r.ok) {
-        msg.style.color = '#4ade80';
-        msg.textContent = '✓ Install instructions sent to ' + email + ' — see you inside.';
-        btn.textContent = '✓ Check your email';
-      } else {
-        // Backend rejected (validation / 422 / 4xx / 5xx). Hand off to the
-        // full /signup form with consent checkbox + region picker rather
-        // than trapping the user on a partial form that keeps failing.
-        window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-      }
-    } catch(err) {
-      window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
-    }
+    window.location.href = `https://app.threatvec.com/signup?email=${encodeURIComponent(email)}&org=${encodeURIComponent(org)}`;
   }
   </script>
 </div>
